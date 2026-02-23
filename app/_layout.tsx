@@ -6,6 +6,7 @@ export default function RootLayout() {
     <PapersProvider>
       <Stack
         screenOptions={{
+          headerShown: false,
           headerStyle: {
             backgroundColor: "#FFFFFF",
           },
