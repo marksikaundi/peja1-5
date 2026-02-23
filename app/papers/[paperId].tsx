@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 import * as Linking from "expo-linking";
+import * as WebBrowser from "expo-web-browser";
 import { useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text } from "react-native";
 
@@ -38,8 +39,23 @@ export default function PaperDetailScreen() {
     );
   }
 
-  const openOnline = async () => {
-    await Linking.openURL(paper.pdfUrl);
+  const previewInApp = async () => {
+    try {
+      await WebBrowser.openBrowserAsync(paper.pdfUrl, {
+        showTitle: true,
+        enableBarCollapsing: true,
+      });
+    } catch {
+      Alert.alert("Preview failed", "Could not open in-app preview.");
+    }
+  };
+
+  const openWithExternalApp = async () => {
+    try {
+      await Linking.openURL(paper.pdfUrl);
+    } catch {
+      Alert.alert("Open failed", "Could not open with external app.");
+    }
   };
 
   const openOffline = async () => {
@@ -80,15 +96,22 @@ export default function PaperDetailScreen() {
         <Text style={styles.meta}>Subject: {paper.subject}</Text>
         <Text style={styles.meta}>Year: {paper.year}</Text>
         <Text style={styles.meta}>Size: {formatBytes(downloadRecord?.sizeBytes ?? paper.sizeBytes)}</Text>
+        <Text style={styles.hint}>
+          Preview opens inside the app first. Download is optional.
+        </Text>
 
-        <Pressable style={styles.primaryButton} onPress={openOnline}>
-          <Text style={styles.primaryButtonText}>View PDF (Online)</Text>
+        <Pressable style={styles.primaryButton} onPress={previewInApp}>
+          <Text style={styles.primaryButtonText}>Preview PDF (In App)</Text>
+        </Pressable>
+
+        <Pressable style={styles.secondaryButton} onPress={openWithExternalApp}>
+          <Text style={styles.secondaryButtonText}>Open with External App</Text>
         </Pressable>
 
         {downloadRecord ? (
           <>
-            <Pressable style={styles.secondaryButton} onPress={openOffline}>
-              <Text style={styles.secondaryButtonText}>Open Offline Copy</Text>
+            <Pressable style={styles.secondaryMutedButton} onPress={openOffline}>
+              <Text style={styles.secondaryMutedButtonText}>Open Offline Copy</Text>
             </Pressable>
             <Pressable style={styles.dangerButton} onPress={handleRemoveOffline} disabled={busy}>
               <Text style={styles.dangerButtonText}>Remove Offline Copy</Text>
@@ -130,6 +153,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#3D556B",
   },
+  hint: {
+    fontSize: 12,
+    color: "#576D80",
+  },
   primaryButton: {
     borderRadius: 10,
     paddingVertical: 12,
@@ -153,6 +180,20 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: "#0D68A8",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  secondaryMutedButton: {
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#8AA3B7",
+    backgroundColor: "#FFFFFF",
+  },
+  secondaryMutedButtonText: {
+    color: "#36556D",
     fontWeight: "700",
     fontSize: 14,
   },

@@ -6,6 +6,7 @@ interface ManifestPaper {
   subject: string;
   year: number;
   title: string;
+  category?: string;
   pdfUrl: string;
   sizeBytes?: number;
   updatedAt: string;
@@ -35,6 +36,11 @@ function resolvePdfUrl(row: PaperRow): string | null {
   }
 
   if (row.fileKey) {
+    // Accept full URLs pasted as "fileKey" from dashboards or logs.
+    if (isHttpUrl(row.fileKey)) {
+      return row.fileKey;
+    }
+
     return buildUploadThingUrl(row.fileKey);
   }
 
@@ -53,12 +59,13 @@ export function buildManifest(): ManifestPayload {
     return {
       id: row.id,
       form: row.form,
-      subject: row.subject,
+      subject: row.subject ?? "General",
       year: row.year,
       title: row.title,
+      category: row.category,
       pdfUrl,
       sizeBytes: row.sizeBytes,
-      updatedAt: row.updatedAt,
+      updatedAt: row.updatedAt ?? row.createdAt ?? PAPERS_UPDATED_AT,
     };
   });
 

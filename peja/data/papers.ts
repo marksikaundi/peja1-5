@@ -3,10 +3,12 @@ export type FormLevel = 1 | 2 | 3 | 4 | 5;
 export interface PaperRow {
   id: string;
   form: FormLevel;
-  subject: string;
+  subject?: string;
   year: number;
   title: string;
-  updatedAt: string;
+  category?: string;
+  updatedAt?: string;
+  createdAt?: string;
   sizeBytes?: number;
   fileKey?: string;
   pdfUrl?: string;
@@ -51,4 +53,5 @@ export const PAPER_ROWS: PaperRow[] = [
     updatedAt: PAPERS_UPDATED_AT,
     fileKey: "REPLACE_WITH_UPLOADTHING_FILE_KEY_3",
   },
+  { "id": "2026-f1-sample-document", "title": "Sample Document", "category": "Past Paper", "form": 1, "year": 2026, "subject": "Self help", "fileKey": "https://wfll61q7ww.ufs.sh/f/77db03e4-f720-483d-939d-b8875ab7dcf0-iq0r9.epub", "createdAt": "2026-02-23T10:40:25.070Z" }
 ];
