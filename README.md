@@ -1,50 +1,89 @@
-# Welcome to your Expo app 👋
+# Zambia Past Papers App (Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Offline-first mobile app for Zambian past papers (Form 1 to Form 5), built with Expo Router.
 
-## Get started
+## MVP Scope
 
-1. Install dependencies
+- Select Form (1-5)
+- Select Subject
+- Select Year
+- View/Download PDF
+- Save papers offline
+- Search by subject
+- No login/auth
 
-   ```bash
-   npm install
-   ```
+## Current Architecture
 
-2. Start the app
+- Frontend: Expo + React Native + TypeScript + Expo Router
+- Metadata sync: JSON manifest fetched from `EXPO_PUBLIC_MANIFEST_URL`
+- Offline metadata cache: local JSON in app document storage
+- Offline PDF storage: `expo-file-system` download to local app directory
+- Fallback model: `remote -> cache -> seed`
 
-   ```bash
-   npx expo start
-   ```
+## UploadThing Integration Model
 
-In the output, you'll find options to open the app in a
+UploadThing stores the PDF files. The app reads a separate manifest endpoint that references UploadThing file URLs.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- `pdfUrl` in each paper should be a direct UploadThing file URL
+- Manifest endpoint should return JSON payload (see schema below)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Manifest Schema
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```json
+{
+  "updatedAt": "2026-02-23T00:00:00.000Z",
+  "papers": [
+    {
+      "id": "f4-math-2025-mock-1",
+      "form": 4,
+      "subject": "Mathematics",
+      "year": 2025,
+      "title": "Form 4 Mathematics Mock 1",
+      "pdfUrl": "https://uploadthing-prod-files.../math-f4-2025.pdf",
+      "sizeBytes": 245112,
+      "updatedAt": "2026-02-23T00:00:00.000Z"
+    }
+  ]
+}
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+The app also accepts wrapped responses:
 
-## Learn more
+- `{ "manifest": { ...schemaAbove } }`
+- `{ "data": { ...schemaAbove } }`
 
-To learn more about developing your project with Expo, look at the following resources:
+## Environment Setup
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+1. Copy the example env file.
+2. Set your live manifest URL.
 
-## Join the community
+```bash
+cp .env.example .env.local
+```
 
-Join our community of developers creating universal apps.
+`.env.local`:
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```bash
+EXPO_PUBLIC_MANIFEST_URL=https://your-domain.com/api/papers-manifest
+```
+
+## Run Locally
+
+```bash
+npm install
+npm start
+```
+
+## Important Notes
+
+- Manifest request timeout is 8 seconds.
+- If network fails or payload is invalid, app uses cached manifest.
+- If no cache exists, app uses bundled seed data.
+- Subject search runs on local cached data.
+
+## Key Paths
+
+- Manifest sync logic: `src/lib/manifest.ts`
+- Offline PDF logic: `src/lib/downloads.ts`
+- App state provider: `src/context/PapersContext.tsx`
+- Screens: `app/`

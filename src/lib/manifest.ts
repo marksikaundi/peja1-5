@@ -6,7 +6,20 @@ import {
 } from "@/src/lib/storage";
 import type { ManifestPayload, ManifestSource, Paper } from "@/src/types/papers";
 
-const MANIFEST_URL = process.env.EXPO_PUBLIC_MANIFEST_URL;
+const MANIFEST_TIMEOUT_MS = 8000;
+
+function getManifestUrl(): string | null {
+  const raw = process.env.EXPO_PUBLIC_MANIFEST_URL?.trim();
+  if (!raw) {
+    return null;
+  }
+
+  if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
+    return null;
+  }
+
+  return raw;
+}
 
 function isValidFormLevel(value: unknown): value is Paper["form"] {
   return value === 1 || value === 2 || value === 3 || value === 4 || value === 5;
@@ -66,18 +79,52 @@ function normalizeManifest(value: unknown): ManifestPayload | null {
   };
 }
 
+function extractManifestCandidate(value: unknown): unknown {
+  if (!value || typeof value !== "object") {
+    return value;
+  }
+
+  const record = value as Record<string, unknown>;
+  if ("manifest" in record) {
+    return record.manifest;
+  }
+
+  if ("data" in record) {
+    return record.data;
+  }
+
+  return value;
+}
+
 async function fetchRemoteManifest(): Promise<ManifestPayload | null> {
-  if (!MANIFEST_URL) {
+  const manifestUrl = getManifestUrl();
+  if (!manifestUrl) {
     return null;
   }
 
-  const response = await fetch(MANIFEST_URL);
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), MANIFEST_TIMEOUT_MS);
+
+  let response: Response;
+
+  try {
+    response = await fetch(manifestUrl, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      signal: controller.signal,
+    });
+  } finally {
+    clearTimeout(timeout);
+  }
+
   if (!response.ok) {
     return null;
   }
 
   const json = (await response.json()) as unknown;
-  return normalizeManifest(json);
+  return normalizeManifest(extractManifestCandidate(json));
 }
 
 export async function syncManifest(): Promise<{
