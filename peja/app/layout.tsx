@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { DM_Sans, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 
@@ -25,7 +26,23 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${spaceGrotesk.variable} antialiased`}>
-        {children}
+        <ClerkProvider
+          appearance={{
+            variables: {
+              colorPrimary: "#0f766e",
+              colorText: "#1a1f24",
+              colorBackground: "#ffffff",
+              borderRadius: "0.9rem",
+              fontFamily: "var(--font-dm-sans), sans-serif",
+            },
+            elements: {
+              card: "shadow-none border border-[#d8e0e8]",
+              footerActionLink: "text-[#0f766e] hover:text-[#0c514b]",
+            },
+          }}
+        >
+          {children}
+        </ClerkProvider>
       </body>
     </html>
   );
