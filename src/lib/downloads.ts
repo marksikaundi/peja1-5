@@ -29,7 +29,7 @@ export async function downloadPaper(paper: Paper): Promise<DownloadRecord> {
     throw new Error(`Download failed with status ${result.status}`);
   }
 
-  const info = await FileSystem.getInfoAsync(targetPath, { size: true });
+  const info = await FileSystem.getInfoAsync(targetPath);
   const record: DownloadRecord = {
     paperId: paper.id,
     localUri: targetPath,
