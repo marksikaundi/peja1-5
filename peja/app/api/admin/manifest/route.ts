@@ -1,10 +1,22 @@
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
 
 import { buildManifest } from "@/src/papers";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
+  const { userId } = await auth();
+  if (!userId) {
+    return NextResponse.json(
+      {
+        error: "UNAUTHORIZED",
+        message: "Sign in to access admin manifest preview.",
+      },
+      { status: 401 },
+    );
+  }
+
   try {
     const manifest = buildManifest();
 
