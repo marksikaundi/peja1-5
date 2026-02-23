@@ -15,6 +15,7 @@
     "expo-env.d.ts"
   ],
   "exclude": [
-    "app-example/**/*"
+    "app-example/**/*",
+    "next-manifest-api/**/*"
   ]
 }
