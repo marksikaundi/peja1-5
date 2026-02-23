@@ -8,6 +8,15 @@ import type { ManifestPayload, ManifestSource, Paper } from "@/src/types/papers"
 
 const MANIFEST_TIMEOUT_MS = 8000;
 
+function isAdminEndpoint(manifestUrl: string): boolean {
+  try {
+    const url = new URL(manifestUrl);
+    return url.pathname.includes("/api/admin/");
+  } catch {
+    return false;
+  }
+}
+
 function getManifestUrl(): string | null {
   const raw = process.env.EXPO_PUBLIC_MANIFEST_URL?.trim();
   if (!raw) {
@@ -16,6 +25,12 @@ function getManifestUrl(): string | null {
 
   if (!raw.startsWith("http://") && !raw.startsWith("https://")) {
     return null;
+  }
+
+  if (isAdminEndpoint(raw)) {
+    console.warn(
+      "[manifest] EXPO_PUBLIC_MANIFEST_URL points to an admin endpoint. Use /api/mobile/manifest for app reads.",
+    );
   }
 
   return raw;
@@ -120,6 +135,9 @@ async function fetchRemoteManifest(): Promise<ManifestPayload | null> {
   }
 
   if (!response.ok) {
+    console.warn(
+      `[manifest] Remote fetch failed: ${response.status} ${response.statusText}. Check EXPO_PUBLIC_MANIFEST_URL and auth requirements.`,
+    );
     return null;
   }
 
