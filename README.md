@@ -87,13 +87,13 @@ npm start
 - Offline PDF logic: `src/lib/downloads.ts`
 - App state provider: `src/context/PapersContext.tsx`
 - Screens: `app/`
-- Next.js manifest API (for Vercel): `next-manifest-api/`
+- Next.js manifest API (for Vercel): `peja/`
 
 ## Next.js + Vercel Manifest Backend
 
-This repo now includes a separate Next.js service in `next-manifest-api/`.
+This repo now includes a separate Next.js service in `peja/`.
 
-1. Deploy `next-manifest-api/` to Vercel.
+1. Deploy `peja/` to Vercel.
 2. Set `UPLOADTHING_APP_ID` in that Vercel project.
 3. Update Expo env:
 

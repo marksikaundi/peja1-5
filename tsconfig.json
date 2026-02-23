@@ -16,6 +16,6 @@
   ],
   "exclude": [
     "app-example/**/*",
-    "next-manifest-api/**/*"
+    "peja/**/*"
   ]
 }
