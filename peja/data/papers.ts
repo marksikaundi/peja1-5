@@ -42,4 +42,13 @@ export const PAPER_ROWS: PaperRow[] = [
     updatedAt: PAPERS_UPDATED_AT,
     fileKey: "REPLACE_WITH_UPLOADTHING_FILE_KEY_3",
   },
+  {
+    id: "f4-chemistry-2025-mock",
+    form: 4,
+    subject: "Chemistry",
+    year: 2025,
+    title: "Form 4 Chemistry Mock",
+    updatedAt: PAPERS_UPDATED_AT,
+    fileKey: "REPLACE_WITH_UPLOADTHING_FILE_KEY_3",
+  },
 ];
