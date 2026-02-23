@@ -50,7 +50,7 @@ export default async function AdminPage() {
         </div>
       </header>
 
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="rise-in grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <article className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
           <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">PAPERS</p>
           <p className="mt-2 text-3xl font-semibold">{totalPapers}</p>
@@ -69,7 +69,7 @@ export default async function AdminPage() {
         </article>
       </section>
 
-      <section className="mt-6 grid gap-4 md:grid-cols-2">
+      <section className="rise-in mt-6 grid gap-4 md:grid-cols-2">
         <article className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold">Upload Workflow</h2>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-[var(--muted)]">
@@ -91,7 +91,7 @@ export default async function AdminPage() {
         </article>
       </section>
 
-      <section className="mt-6 rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
+      <section className="rise-in mt-6 rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
         <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
           <h2 className="text-lg font-semibold">Current Records</h2>
           <Link href="/api/mobile/manifest" className="text-sm font-semibold text-[var(--brand-ink)] hover:underline">

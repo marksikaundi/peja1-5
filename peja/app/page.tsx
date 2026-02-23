@@ -53,9 +53,9 @@ export default function HomePage() {
         </div>
       </header>
 
-      <section className="relative overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--card)] p-6 shadow-sm md:p-10">
-        <div className="pointer-events-none absolute -left-16 top-10 h-48 w-48 rounded-full bg-[var(--brand)]/15 blur-3xl" />
-        <div className="pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[var(--accent)]/25 blur-2xl" />
+      <section className="rise-in relative overflow-hidden rounded-3xl border border-[var(--line)] bg-[var(--card)] p-6 shadow-sm md:p-10">
+        <div className="pulse-soft pointer-events-none absolute -left-16 top-10 h-48 w-48 rounded-full bg-[var(--brand)]/15 blur-3xl" />
+        <div className="pulse-soft pointer-events-none absolute -right-12 -top-12 h-40 w-40 rounded-full bg-[var(--accent)]/25 blur-2xl" />
 
         <div className="relative grid gap-10 md:grid-cols-[1.4fr_1fr]">
           <div>
@@ -101,7 +101,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mt-8 grid gap-4 md:grid-cols-3">
+      <section className="rise-in mt-8 grid gap-4 md:grid-cols-3">
         {featureCards.map((item) => (
           <article key={item.title} className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
             <h2 className="mb-2 text-lg font-semibold">{item.title}</h2>

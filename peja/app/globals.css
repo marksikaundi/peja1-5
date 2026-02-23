@@ -35,3 +35,34 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0.55;
+  }
+}
+
+.rise-in {
+  animation: riseIn 500ms ease-out both;
+}
+
+.pulse-soft {
+  animation: glowPulse 4s ease-in-out infinite;
+}

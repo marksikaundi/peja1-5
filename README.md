@@ -94,7 +94,7 @@ npm start
 This repo now includes a separate Next.js service in `peja/`.
 
 1. Deploy `peja/` to Vercel.
-2. Set `UPLOADTHING_APP_ID` in that Vercel project.
+2. Set `UPLOADTHING_APP_ID`, `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`, and `CLERK_SECRET_KEY` in that Vercel project.
 3. Update Expo env:
 
 ```bash
