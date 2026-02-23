@@ -7,6 +7,12 @@ Backend + admin for Zambia Past Papers mobile app (`peja1-5`).
 - Public mobile manifest: `GET /api/mobile/manifest`
 - Alias (same payload): `GET /api/papers-manifest`
 - Admin manifest preview (auth required): `GET /api/admin/manifest`
+- Admin material submit (auth required): `POST /api/admin/materials`
+
+## Admin UI Routes
+
+- Dashboard: `/admin`
+- Upload material form: `/admin/upload`
 
 ## Clerk Authentication (Implemented)
 

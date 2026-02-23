@@ -39,6 +39,12 @@ export default async function AdminPage() {
 
         <div className="flex items-center gap-2">
           <Link
+            href="/admin/upload"
+            className="rounded-xl bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--brand-ink)]"
+          >
+            Upload Learning Material
+          </Link>
+          <Link
             href="/api/admin/manifest"
             className="rounded-xl border border-[var(--line)] bg-white px-4 py-2 text-sm font-semibold hover:border-[var(--brand)]"
           >
@@ -70,6 +76,20 @@ export default async function AdminPage() {
       </section>
 
       <section className="rise-in mt-6 grid gap-4 md:grid-cols-2">
+        <article className="rounded-2xl border border-[var(--line)] bg-[#f2fbf8] p-5 shadow-sm">
+          <h2 className="text-lg font-semibold">Quick Upload</h2>
+          <p className="mt-3 text-sm leading-6 text-[var(--muted)]">
+            Open the upload form and submit material metadata with required fields:
+            category, form, and year.
+          </p>
+          <Link
+            href="/admin/upload"
+            className="mt-4 inline-flex rounded-xl bg-[var(--brand)] px-4 py-2 text-sm font-semibold text-white hover:bg-[var(--brand-ink)]"
+          >
+            Go to Upload Form
+          </Link>
+        </article>
+
         <article className="rounded-2xl border border-[var(--line)] bg-white p-5 shadow-sm">
           <h2 className="text-lg font-semibold">Upload Workflow</h2>
           <ol className="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-[var(--muted)]">
