@@ -64,7 +64,7 @@ cp .env.example .env.local
 `.env.local`:
 
 ```bash
-EXPO_PUBLIC_MANIFEST_URL=https://your-domain.com/api/papers-manifest
+EXPO_PUBLIC_MANIFEST_URL=https://your-domain.com/api/mobile/manifest
 ```
 
 ## Run Locally
@@ -98,5 +98,5 @@ This repo now includes a separate Next.js service in `peja/`.
 3. Update Expo env:
 
 ```bash
-EXPO_PUBLIC_MANIFEST_URL=https://<your-vercel-domain>/api/papers-manifest
+EXPO_PUBLIC_MANIFEST_URL=https://<your-vercel-domain>/api/mobile/manifest
 ```
