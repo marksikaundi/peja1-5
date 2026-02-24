@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
 import { ListCard } from "@/src/components/ListCard";
@@ -33,7 +33,9 @@ export default function SubjectYearsScreen() {
   if (!form || !subject) {
     return (
       <AppScreen>
-        <Text style={styles.error}>Invalid subject route.</Text>
+        <View style={styles.errorCard}>
+          <Text style={styles.error}>Invalid subject route.</Text>
+        </View>
       </AppScreen>
     );
   }
@@ -42,9 +44,13 @@ export default function SubjectYearsScreen() {
 
   return (
     <AppScreen>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>{subject}</Text>
-        <Text style={styles.subtitle}>Form {form} papers by year</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerCard}>
+          <Text style={styles.badge}>Form {form}</Text>
+          <Text style={styles.title}>{subject}</Text>
+          <Text style={styles.subtitle}>Select a year to view available papers.</Text>
+          <Text style={styles.countLabel}>{years.length} years found</Text>
+        </View>
 
         {years.map((year) => (
           <ListCard
@@ -65,7 +71,11 @@ export default function SubjectYearsScreen() {
           />
         ))}
 
-        {!years.length ? <Text style={styles.empty}>No papers found for this subject yet.</Text> : null}
+        {!years.length ? (
+          <View style={styles.emptyCard}>
+            <Text style={styles.empty}>No papers found for this subject yet.</Text>
+          </View>
+        ) : null}
       </ScrollView>
     </AppScreen>
   );
@@ -73,21 +83,58 @@ export default function SubjectYearsScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: 12,
-    paddingBottom: 20,
+    gap: 14,
+    paddingBottom: 24,
+  },
+  headerCard: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 6,
+  },
+  badge: {
+    fontSize: 11,
+    color: "#0C5D95",
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "800",
-    color: "#13283A",
+    color: "#162D43",
   },
   subtitle: {
-    fontSize: 13,
-    color: "#4A6076",
+    fontSize: 14,
+    color: "#5A6F84",
+    lineHeight: 20,
+  },
+  countLabel: {
+    marginTop: 2,
+    fontSize: 12,
+    color: "#6A7F92",
+    fontWeight: "700",
+  },
+  errorCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#F3D0D6",
+    backgroundColor: "#FFF6F8",
+    padding: 14,
   },
   error: {
     fontSize: 14,
     color: "#8E2430",
+  },
+  emptyCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#F8FBFF",
+    padding: 14,
   },
   empty: {
     fontSize: 13,

@@ -19,7 +19,15 @@ const FORMS = [1, 2, 3, 4, 5] as const;
 
 export default function IndexScreen() {
   const [query, setQuery] = useState("");
-  const { papers, source, lastUpdatedAt, loading, error, refreshManifest } = usePapers();
+  const {
+    papers,
+    source,
+    lastUpdatedAt,
+    loading,
+    error,
+    refreshManifest,
+    downloads,
+  } = usePapers();
 
   const matchedSubjects = useMemo(() => {
     if (!query.trim()) {
@@ -37,15 +45,30 @@ export default function IndexScreen() {
 
   return (
     <AppScreen>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.headerRow}>
-          <View style={styles.titleWrap}>
-            <Text style={styles.title}>Zambia Past Papers</Text>
-            <Text style={styles.subtitle}>Forms 1-5 | New Curriculum | Offline-first</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.heroCard}>
+          <View style={styles.heroTopRow}>
+            <Text style={styles.heroBadge}>ZAMBIA PAST PAPERS</Text>
+            <Pressable onPress={refreshManifest} style={styles.syncButton}>
+              <Text style={styles.syncButtonText}>Sync Data</Text>
+            </Pressable>
           </View>
-          <Pressable onPress={refreshManifest} style={styles.syncButton}>
-            <Text style={styles.syncButtonText}>Sync</Text>
-          </Pressable>
+          <Text style={styles.title}>Study Faster, Even Offline</Text>
+          <Text style={styles.subtitle}>
+            Form 1 to Form 5 papers by subject and year. Browse quickly and download only what you
+            need.
+          </Text>
+
+          <View style={styles.metricsRow}>
+            <View style={styles.metricChip}>
+              <Text style={styles.metricLabel}>Papers</Text>
+              <Text style={styles.metricValue}>{papers.length}</Text>
+            </View>
+            <View style={styles.metricChip}>
+              <Text style={styles.metricLabel}>Offline</Text>
+              <Text style={styles.metricValue}>{Object.keys(downloads).length}</Text>
+            </View>
+          </View>
         </View>
 
         <StatusBanner source={source} updatedAt={lastUpdatedAt} />
@@ -79,7 +102,11 @@ export default function IndexScreen() {
           ) : null}
         </View>
 
-        <Text style={styles.sectionLabel}>Select Form</Text>
+        <View style={styles.sectionHeaderRow}>
+          <Text style={styles.sectionTitle}>Choose Form</Text>
+          <Text style={styles.sectionMeta}>1 - 5</Text>
+        </View>
+
         {FORMS.map((form) => (
           <ListCard
             key={form}
@@ -108,92 +135,153 @@ export default function IndexScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: 12,
-    paddingBottom: 20,
+    gap: 14,
+    paddingBottom: 24,
   },
-  headerRow: {
+  heroCard: {
+    borderRadius: 22,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 10,
+    shadowColor: "#12324A",
+    shadowOpacity: 0.08,
+    shadowOffset: { width: 0, height: 8 },
+    shadowRadius: 16,
+    elevation: 3,
+  },
+  heroTopRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 12,
+    gap: 8,
   },
-  titleWrap: {
-    flex: 1,
-    gap: 4,
+  heroBadge: {
+    fontSize: 10,
+    letterSpacing: 0.9,
+    fontWeight: "800",
+    color: "#0C5D95",
+    textTransform: "uppercase",
   },
   title: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: "800",
-    color: "#13283A",
+    color: "#152A40",
   },
   subtitle: {
-    fontSize: 13,
-    color: "#496177",
+    fontSize: 14,
+    color: "#587086",
+    lineHeight: 21,
   },
   syncButton: {
     borderWidth: 1,
-    borderColor: "#0F6AAB",
-    borderRadius: 8,
+    borderColor: "#BDD9EE",
+    borderRadius: 999,
     paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: "#FFFFFF",
+    paddingVertical: 7,
+    backgroundColor: "#EFF8FF",
   },
   syncButtonText: {
     color: "#0D68A8",
     fontWeight: "700",
     fontSize: 12,
   },
-  sectionLabel: {
-    fontSize: 14,
+  metricsRow: {
+    marginTop: 4,
+    flexDirection: "row",
+    gap: 10,
+  },
+  metricChip: {
+    flex: 1,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#D6E5F2",
+    backgroundColor: "#F7FBFF",
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    gap: 2,
+  },
+  metricLabel: {
+    fontSize: 11,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+    color: "#56708A",
     fontWeight: "700",
-    color: "#1F3648",
+  },
+  metricValue: {
+    fontSize: 18,
+    color: "#16324B",
+    fontWeight: "800",
+  },
+  sectionHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 2,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: "#1E3448",
+  },
+  sectionMeta: {
+    fontSize: 12,
+    color: "#6A7F92",
+    fontWeight: "700",
   },
   searchBox: {
     borderWidth: 1,
-    borderColor: "#D5DDE5",
-    borderRadius: 12,
+    borderColor: "#D8E2ED",
+    borderRadius: 18,
     backgroundColor: "#FFFFFF",
-    padding: 12,
+    padding: 14,
     gap: 10,
+  },
+  sectionLabel: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#1F3648",
   },
   input: {
     borderWidth: 1,
-    borderColor: "#CDD8E2",
-    borderRadius: 10,
+    borderColor: "#D5DFE9",
+    borderRadius: 12,
     paddingHorizontal: 12,
-    paddingVertical: 10,
+    paddingVertical: 11,
     fontSize: 14,
     color: "#0F2537",
-    backgroundColor: "#FBFCFD",
+    backgroundColor: "#FAFCFF",
   },
   searchResult: {
     borderWidth: 1,
-    borderColor: "#CBE2F4",
-    borderRadius: 8,
+    borderColor: "#D2E6F7",
+    borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    backgroundColor: "#F2F9FF",
+    backgroundColor: "#F1F8FF",
   },
   searchResultText: {
     color: "#14558A",
     fontSize: 13,
-    fontWeight: "600",
+    fontWeight: "700",
   },
   emptyHint: {
     fontSize: 12,
     color: "#6E7E8D",
   },
   fullSearchButton: {
-    marginTop: 6,
-    paddingVertical: 12,
-    borderRadius: 10,
+    marginTop: 2,
+    paddingVertical: 14,
+    borderRadius: 12,
     backgroundColor: "#0D68A8",
     alignItems: "center",
   },
   fullSearchText: {
     color: "#FFFFFF",
     fontSize: 14,
-    fontWeight: "700",
+    fontWeight: "800",
   },
   error: {
     fontSize: 12,

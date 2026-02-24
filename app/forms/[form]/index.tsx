@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, StyleSheet, Text } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
 import { ListCard } from "@/src/components/ListCard";
@@ -26,7 +26,9 @@ export default function FormSubjectsScreen() {
   if (!form) {
     return (
       <AppScreen>
-        <Text style={styles.error}>Invalid form selected.</Text>
+        <View style={styles.errorCard}>
+          <Text style={styles.error}>Invalid form selected.</Text>
+        </View>
       </AppScreen>
     );
   }
@@ -35,9 +37,13 @@ export default function FormSubjectsScreen() {
 
   return (
     <AppScreen>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>Form {form} Subjects</Text>
-        <Text style={styles.subtitle}>Select a subject to view available years.</Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerCard}>
+          <Text style={styles.badge}>Form {form}</Text>
+          <Text style={styles.title}>Choose a Subject</Text>
+          <Text style={styles.subtitle}>Select a subject to view available exam years.</Text>
+          <Text style={styles.countLabel}>{subjects.length} subjects available</Text>
+        </View>
 
         {subjects.map((subject) => (
           <ListCard
@@ -57,7 +63,11 @@ export default function FormSubjectsScreen() {
           />
         ))}
 
-        {!subjects.length ? <Text style={styles.empty}>No subjects cached for this form yet.</Text> : null}
+        {!subjects.length ? (
+          <View style={styles.emptyCard}>
+            <Text style={styles.empty}>No subjects cached for this form yet.</Text>
+          </View>
+        ) : null}
       </ScrollView>
     </AppScreen>
   );
@@ -65,21 +75,58 @@ export default function FormSubjectsScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: 12,
-    paddingBottom: 20,
+    gap: 14,
+    paddingBottom: 24,
+  },
+  headerCard: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 6,
+  },
+  badge: {
+    fontSize: 11,
+    color: "#0C5D95",
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "800",
-    color: "#13283A",
+    color: "#162D43",
   },
   subtitle: {
-    fontSize: 13,
-    color: "#4A6076",
+    fontSize: 14,
+    color: "#5A6F84",
+    lineHeight: 20,
+  },
+  countLabel: {
+    marginTop: 2,
+    fontSize: 12,
+    color: "#6A7F92",
+    fontWeight: "700",
+  },
+  errorCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#F3D0D6",
+    backgroundColor: "#FFF6F8",
+    padding: 14,
   },
   error: {
     fontSize: 14,
     color: "#8E2430",
+  },
+  emptyCard: {
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#F8FBFF",
+    padding: 14,
   },
   empty: {
     fontSize: 13,

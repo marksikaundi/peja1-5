@@ -6,11 +6,23 @@ interface StatusBannerProps {
 }
 
 export function StatusBanner({ source, updatedAt }: StatusBannerProps) {
+  const normalizedSource =
+    source === "remote"
+      ? "Live"
+      : source === "cache"
+        ? "Cached"
+        : "Seed";
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Data Source: {source.toUpperCase()}</Text>
+      <View style={styles.row}>
+        <Text style={styles.title}>Dataset</Text>
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>{normalizedSource}</Text>
+        </View>
+      </View>
       <Text style={styles.subtitle}>
-        Last Updated: {updatedAt ? new Date(updatedAt).toLocaleString() : "Unknown"}
+        Updated: {updatedAt ? new Date(updatedAt).toLocaleString() : "Unknown"}
       </Text>
     </View>
   );
@@ -18,21 +30,41 @@ export function StatusBanner({ source, updatedAt }: StatusBannerProps) {
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
-    backgroundColor: "#E9F5FF",
+    borderRadius: 16,
+    backgroundColor: "#F2F8FD",
     borderWidth: 1,
-    borderColor: "#BEDFFF",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
+    borderColor: "#D1E5F5",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
     gap: 4,
   },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
   title: {
-    fontSize: 12,
-    color: "#0E4E85",
-    fontWeight: "700",
+    fontSize: 13,
+    color: "#1D405E",
+    fontWeight: "800",
+  },
+  badge: {
+    borderWidth: 1,
+    borderColor: "#BFD9EE",
+    backgroundColor: "#FFFFFF",
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
+  },
+  badgeText: {
+    fontSize: 11,
+    color: "#0C5E96",
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
   },
   subtitle: {
     fontSize: 12,
-    color: "#2F5D82",
+    color: "#4D6983",
   },
 });

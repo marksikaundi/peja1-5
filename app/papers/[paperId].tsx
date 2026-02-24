@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useMemo, useState } from "react";
-import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text } from "react-native";
+import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
 import { usePapers } from "@/src/context/PapersContext";
@@ -34,7 +34,9 @@ export default function PaperDetailScreen() {
   if (!paper) {
     return (
       <AppScreen>
-        <Text style={styles.error}>Paper not found.</Text>
+        <View style={styles.errorCard}>
+          <Text style={styles.error}>Paper not found.</Text>
+        </View>
       </AppScreen>
     );
   }
@@ -90,15 +92,31 @@ export default function PaperDetailScreen() {
 
   return (
     <AppScreen>
-      <ScrollView contentContainerStyle={styles.content}>
-        <Text style={styles.title}>{paper.title}</Text>
-        <Text style={styles.meta}>Form {paper.form}</Text>
-        <Text style={styles.meta}>Subject: {paper.subject}</Text>
-        <Text style={styles.meta}>Year: {paper.year}</Text>
-        <Text style={styles.meta}>Size: {formatBytes(downloadRecord?.sizeBytes ?? paper.sizeBytes)}</Text>
-        <Text style={styles.hint}>
-          Preview opens inside the app first. Download is optional.
-        </Text>
+      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.headerCard}>
+          <Text style={styles.badge}>Paper Detail</Text>
+          <Text style={styles.title}>{paper.title}</Text>
+          <Text style={styles.subtitle}>Preview opens in app first. Offline save is optional.</Text>
+        </View>
+
+        <View style={styles.metaCard}>
+          <View style={styles.metaRow}>
+            <Text style={styles.metaLabel}>Form</Text>
+            <Text style={styles.metaValue}>{paper.form}</Text>
+          </View>
+          <View style={styles.metaRow}>
+            <Text style={styles.metaLabel}>Subject</Text>
+            <Text style={styles.metaValue}>{paper.subject}</Text>
+          </View>
+          <View style={styles.metaRow}>
+            <Text style={styles.metaLabel}>Year</Text>
+            <Text style={styles.metaValue}>{paper.year}</Text>
+          </View>
+          <View style={styles.metaRow}>
+            <Text style={styles.metaLabel}>Size</Text>
+            <Text style={styles.metaValue}>{formatBytes(downloadRecord?.sizeBytes ?? paper.sizeBytes)}</Text>
+          </View>
+        </View>
 
         <Pressable style={styles.primaryButton} onPress={previewInApp}>
           <Text style={styles.primaryButtonText}>Preview PDF (In App)</Text>
@@ -130,9 +148,11 @@ export default function PaperDetailScreen() {
         {busy || isDownloading ? <ActivityIndicator size="small" color="#0D68A8" /> : null}
 
         {downloadRecord ? (
-          <Text style={styles.savedMeta}>
-            Saved on: {new Date(downloadRecord.downloadedAt).toLocaleString()}
-          </Text>
+          <View style={styles.savedCard}>
+            <Text style={styles.savedMeta}>
+              Saved on: {new Date(downloadRecord.downloadedAt).toLocaleString()}
+            </Text>
+          </View>
         ) : null}
       </ScrollView>
     </AppScreen>
@@ -141,37 +161,78 @@ export default function PaperDetailScreen() {
 
 const styles = StyleSheet.create({
   content: {
-    gap: 12,
-    paddingBottom: 20,
+    gap: 14,
+    paddingBottom: 24,
+  },
+  headerCard: {
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingVertical: 16,
+    gap: 6,
+  },
+  badge: {
+    fontSize: 11,
+    color: "#0C5D95",
+    fontWeight: "800",
+    letterSpacing: 0.4,
+    textTransform: "uppercase",
   },
   title: {
-    fontSize: 22,
+    fontSize: 24,
     fontWeight: "800",
-    color: "#13283A",
+    color: "#162D43",
   },
-  meta: {
+  subtitle: {
     fontSize: 14,
-    color: "#3D556B",
+    color: "#5A6F84",
+    lineHeight: 20,
   },
-  hint: {
-    fontSize: 12,
-    color: "#576D80",
+  metaCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#D8E2ED",
+    backgroundColor: "#FFFFFF",
+    overflow: "hidden",
+  },
+  metaRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#D9E4EE",
+  },
+  metaLabel: {
+    fontSize: 13,
+    color: "#5A6F84",
+    fontWeight: "700",
+  },
+  metaValue: {
+    fontSize: 14,
+    color: "#1C3349",
+    fontWeight: "800",
+    flexShrink: 1,
+    textAlign: "right",
   },
   primaryButton: {
-    borderRadius: 10,
-    paddingVertical: 12,
+    borderRadius: 12,
+    paddingVertical: 13,
     paddingHorizontal: 14,
     alignItems: "center",
     backgroundColor: "#0D68A8",
   },
   primaryButtonText: {
     color: "#FFFFFF",
-    fontWeight: "700",
+    fontWeight: "800",
     fontSize: 14,
   },
   secondaryButton: {
-    borderRadius: 10,
-    paddingVertical: 12,
+    borderRadius: 12,
+    paddingVertical: 13,
     paddingHorizontal: 14,
     alignItems: "center",
     borderWidth: 1,
@@ -180,12 +241,12 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     color: "#0D68A8",
-    fontWeight: "700",
+    fontWeight: "800",
     fontSize: 14,
   },
   secondaryMutedButton: {
-    borderRadius: 10,
-    paddingVertical: 12,
+    borderRadius: 12,
+    paddingVertical: 13,
     paddingHorizontal: 14,
     alignItems: "center",
     borderWidth: 1,
@@ -194,26 +255,42 @@ const styles = StyleSheet.create({
   },
   secondaryMutedButtonText: {
     color: "#36556D",
-    fontWeight: "700",
+    fontWeight: "800",
     fontSize: 14,
   },
   dangerButton: {
-    borderRadius: 10,
-    paddingVertical: 12,
+    borderRadius: 12,
+    paddingVertical: 13,
     paddingHorizontal: 14,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#A11A1A",
-    backgroundColor: "#FFF5F5",
+    borderColor: "#E4B7BE",
+    backgroundColor: "#FFF5F7",
   },
   dangerButtonText: {
-    color: "#A11A1A",
-    fontWeight: "700",
+    color: "#9D2630",
+    fontWeight: "800",
     fontSize: 14,
+  },
+  savedCard: {
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "#CFE5D8",
+    backgroundColor: "#F1FBF6",
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
   savedMeta: {
     fontSize: 12,
-    color: "#526578",
+    color: "#3B6A56",
+    fontWeight: "700",
+  },
+  errorCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#F3D0D6",
+    backgroundColor: "#FFF6F8",
+    padding: 14,
   },
   error: {
     fontSize: 14,
