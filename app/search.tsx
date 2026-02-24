@@ -3,6 +3,7 @@ import { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
+import { BackNav } from "@/src/components/BackNav";
 import { ListCard } from "@/src/components/ListCard";
 import { usePapers } from "@/src/context/PapersContext";
 import { searchPapersBySubject } from "@/src/lib/manifest";
@@ -18,6 +19,7 @@ export default function SearchScreen() {
     <AppScreen>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerCard}>
+          <BackNav style={styles.backButton} />
           <Text style={styles.badge}>Search</Text>
           <Text style={styles.title}>Find by Subject</Text>
           <Text style={styles.subtitle}>Search through locally cached papers by subject name.</Text>
@@ -74,6 +76,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     gap: 6,
+  },
+  backButton: {
+    marginBottom: 2,
   },
   badge: {
     fontSize: 11,

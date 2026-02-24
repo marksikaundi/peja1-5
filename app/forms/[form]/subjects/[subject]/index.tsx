@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
+import { BackNav } from "@/src/components/BackNav";
 import { ListCard } from "@/src/components/ListCard";
 import { usePapers } from "@/src/context/PapersContext";
 import { listYearsByFormSubject } from "@/src/lib/manifest";
@@ -46,6 +47,7 @@ export default function SubjectYearsScreen() {
     <AppScreen>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerCard}>
+          <BackNav style={styles.backButton} />
           <Text style={styles.badge}>Form {form}</Text>
           <Text style={styles.title}>{subject}</Text>
           <Text style={styles.subtitle}>Select a year to view available papers.</Text>
@@ -94,6 +96,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     gap: 6,
+  },
+  backButton: {
+    marginBottom: 2,
   },
   badge: {
     fontSize: 11,

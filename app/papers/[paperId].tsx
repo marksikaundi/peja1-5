@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
+import { BackNav } from "@/src/components/BackNav";
 import { usePapers } from "@/src/context/PapersContext";
 import { formatBytes } from "@/src/lib/format";
 
@@ -94,6 +95,7 @@ export default function PaperDetailScreen() {
     <AppScreen>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerCard}>
+          <BackNav style={styles.backButton} />
           <Text style={styles.badge}>Paper Detail</Text>
           <Text style={styles.title}>{paper.title}</Text>
           <Text style={styles.subtitle}>Preview opens in app first. Offline save is optional.</Text>
@@ -172,6 +174,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 16,
     gap: 6,
+  },
+  backButton: {
+    marginBottom: 2,
   },
   badge: {
     fontSize: 11,
