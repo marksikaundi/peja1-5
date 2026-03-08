@@ -16,14 +16,15 @@ export default function AboutScreen() {
           <Text style={styles.badge}>About</Text>
           <Text style={styles.title}>Zambia Past Papers</Text>
           <Text style={styles.subtitle}>
-            Offline-first paper access for Form 1 to Form 5, designed for simple navigation and low
-            data usage.
+            A clean document app for opening your files fast, plus offline-first past paper access
+            for Form 1 to Form 5.
           </Text>
           <Text style={styles.version}>{APP_VERSION}</Text>
         </View>
 
         <View style={styles.infoCard}>
           <Text style={styles.infoTitle}>What this app does</Text>
+          <Text style={styles.infoItem}>• Open any document from device storage</Text>
           <Text style={styles.infoItem}>• Browse by Form, Subject, and Year</Text>
           <Text style={styles.infoItem}>• Preview PDFs inside the app</Text>
           <Text style={styles.infoItem}>• Save papers for offline access</Text>

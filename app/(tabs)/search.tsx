@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useMemo, useState } from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 
 import { AppScreen } from "@/src/components/AppScreen";
 import { BackNav } from "@/src/components/BackNav";
@@ -20,9 +20,12 @@ export default function SearchScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.headerCard}>
           <BackNav style={styles.backButton} />
-          <Text style={styles.badge}>Search</Text>
+          <Text style={styles.badge}>Find</Text>
           <Text style={styles.title}>Find by Subject</Text>
-          <Text style={styles.subtitle}>Search through locally cached papers by subject name.</Text>
+          <Text style={styles.subtitle}>Search through cached papers, or open your own files.</Text>
+          <Pressable style={styles.openDocsButton} onPress={() => router.push("/open")}>
+            <Text style={styles.openDocsText}>Open Any Document</Text>
+          </Pressable>
         </View>
 
         <View style={styles.searchBox}>
@@ -69,11 +72,11 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   headerCard: {
-    borderRadius: 20,
+    borderRadius: 22,
     borderWidth: 1,
-    borderColor: "#D8E2ED",
+    borderColor: "#D5E4EA",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     paddingVertical: 16,
     gap: 6,
   },
@@ -82,24 +85,39 @@ const styles = StyleSheet.create({
   },
   badge: {
     fontSize: 11,
-    color: "#0C5D95",
+    color: "#0F766E",
     fontWeight: "800",
     letterSpacing: 0.4,
     textTransform: "uppercase",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "800",
-    color: "#162D43",
+    fontSize: 28,
+    fontWeight: "900",
+    color: "#102A43",
   },
   subtitle: {
     fontSize: 14,
-    color: "#5A6F84",
+    color: "#486581",
     lineHeight: 20,
+  },
+  openDocsButton: {
+    marginTop: 6,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#B8D8D5",
+    backgroundColor: "#F3FFFC",
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  openDocsText: {
+    fontSize: 12,
+    fontWeight: "800",
+    color: "#145A53",
   },
   searchBox: {
     borderWidth: 1,
-    borderColor: "#D8E2ED",
+    borderColor: "#D9E2EC",
     borderRadius: 16,
     backgroundColor: "#FFFFFF",
     padding: 12,
@@ -107,28 +125,28 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#D3DEE8",
+    borderColor: "#D9E2EC",
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 11,
     fontSize: 14,
-    color: "#0F2537",
-    backgroundColor: "#FAFCFF",
+    color: "#102A43",
+    backgroundColor: "#F8FBFC",
   },
   resultMeta: {
     fontSize: 12,
-    color: "#607487",
+    color: "#627D98",
     fontWeight: "700",
   },
   emptyCard: {
     borderRadius: 14,
     borderWidth: 1,
-    borderColor: "#D8E2ED",
-    backgroundColor: "#F8FBFF",
+    borderColor: "#D9E2EC",
+    backgroundColor: "#FFFFFF",
     padding: 14,
   },
   empty: {
     fontSize: 13,
-    color: "#667788",
+    color: "#627D98",
   },
 });

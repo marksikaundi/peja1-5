@@ -166,7 +166,7 @@ export default function OpenScreen() {
         {!loading && !recent.length ? (
           <View style={styles.emptyCard}>
             <Text style={styles.emptyText}>
-              No recent documents yet. Tap "Choose Document" to get started.
+              No recent documents yet. Tap Choose Document to get started.
             </Text>
           </View>
         ) : null}

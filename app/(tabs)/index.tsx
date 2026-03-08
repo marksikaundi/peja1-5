@@ -48,20 +48,19 @@ export default function IndexScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.heroCard}>
           <View style={styles.heroTopRow}>
-            <Text style={styles.heroBadge}>ZAMBIA PAST PAPERS</Text>
+            <Text style={styles.heroBadge}>Document Hub</Text>
             <Pressable onPress={refreshManifest} style={styles.syncButton}>
-              <Text style={styles.syncButtonText}>Sync Data</Text>
+              <Text style={styles.syncButtonText}>Refresh</Text>
             </Pressable>
           </View>
-          <Text style={styles.title}>Study Faster, Even Offline</Text>
+          <Text style={styles.title}>Clean, Fast, and Ready to Open Files</Text>
           <Text style={styles.subtitle}>
-            Form 1 to Form 5 papers by subject and year. Browse quickly and download only what you
-            need.
+            Open any document from your device or browse past papers by form, subject, and year.
           </Text>
 
           <View style={styles.metricsRow}>
             <View style={styles.metricChip}>
-              <Text style={styles.metricLabel}>Papers</Text>
+              <Text style={styles.metricLabel}>Catalog</Text>
               <Text style={styles.metricValue}>{papers.length}</Text>
             </View>
             <View style={styles.metricChip}>
@@ -72,6 +71,15 @@ export default function IndexScreen() {
         </View>
 
         <StatusBanner source={source} updatedAt={lastUpdatedAt} />
+
+        <View style={styles.actionsRow}>
+          <Pressable style={styles.primaryAction} onPress={() => router.push("/open")}>
+            <Text style={styles.primaryActionText}>Open Any Document</Text>
+          </Pressable>
+          <Pressable style={styles.secondaryAction} onPress={() => router.push("/search")}>
+            <Text style={styles.secondaryActionText}>Search Papers</Text>
+          </Pressable>
+        </View>
 
         <View style={styles.searchBox}>
           <Text style={styles.sectionLabel}>Search by Subject</Text>
@@ -103,7 +111,7 @@ export default function IndexScreen() {
         </View>
 
         <View style={styles.sectionHeaderRow}>
-          <Text style={styles.sectionTitle}>Choose Form</Text>
+          <Text style={styles.sectionTitle}>Browse by Form</Text>
           <Text style={styles.sectionMeta}>1 - 5</Text>
         </View>
 
@@ -122,11 +130,7 @@ export default function IndexScreen() {
           />
         ))}
 
-        <Pressable onPress={() => router.push("/search")} style={styles.fullSearchButton}>
-          <Text style={styles.fullSearchText}>Open Full Subject Search</Text>
-        </Pressable>
-
-        {loading ? <ActivityIndicator size="small" color="#0D68A8" /> : null}
+        {loading ? <ActivityIndicator size="small" color="#0F766E" /> : null}
         {error ? <Text style={styles.error}>{error}</Text> : null}
       </ScrollView>
     </AppScreen>
@@ -139,17 +143,17 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   heroCard: {
-    borderRadius: 22,
+    borderRadius: 24,
     borderWidth: 1,
-    borderColor: "#D8E2ED",
+    borderColor: "#D5E4EA",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
-    paddingVertical: 16,
+    paddingHorizontal: 18,
+    paddingVertical: 18,
     gap: 10,
-    shadowColor: "#12324A",
+    shadowColor: "#12343B",
     shadowOpacity: 0.08,
-    shadowOffset: { width: 0, height: 8 },
-    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 7 },
+    shadowRadius: 14,
     elevation: 3,
   },
   heroTopRow: {
@@ -162,29 +166,30 @@ const styles = StyleSheet.create({
     fontSize: 10,
     letterSpacing: 0.9,
     fontWeight: "800",
-    color: "#0C5D95",
+    color: "#0F766E",
     textTransform: "uppercase",
   },
   title: {
-    fontSize: 26,
-    fontWeight: "800",
-    color: "#152A40",
+    fontSize: 30,
+    lineHeight: 34,
+    fontWeight: "900",
+    color: "#102A43",
   },
   subtitle: {
     fontSize: 14,
-    color: "#587086",
+    color: "#486581",
     lineHeight: 21,
   },
   syncButton: {
     borderWidth: 1,
-    borderColor: "#BDD9EE",
+    borderColor: "#B8D8D5",
     borderRadius: 999,
     paddingHorizontal: 12,
-    paddingVertical: 7,
-    backgroundColor: "#EFF8FF",
+    paddingVertical: 6,
+    backgroundColor: "#F3FFFC",
   },
   syncButtonText: {
-    color: "#0D68A8",
+    color: "#145A53",
     fontWeight: "700",
     fontSize: 12,
   },
@@ -197,8 +202,8 @@ const styles = StyleSheet.create({
     flex: 1,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#D6E5F2",
-    backgroundColor: "#F7FBFF",
+    borderColor: "#DBE7F3",
+    backgroundColor: "#F8FCFF",
     paddingHorizontal: 10,
     paddingVertical: 10,
     gap: 2,
@@ -207,12 +212,41 @@ const styles = StyleSheet.create({
     fontSize: 11,
     textTransform: "uppercase",
     letterSpacing: 0.5,
-    color: "#56708A",
+    color: "#627D98",
     fontWeight: "700",
   },
   metricValue: {
     fontSize: 18,
-    color: "#16324B",
+    color: "#102A43",
+    fontWeight: "800",
+  },
+  actionsRow: {
+    gap: 10,
+  },
+  primaryAction: {
+    borderRadius: 14,
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    backgroundColor: "#0F766E",
+    alignItems: "center",
+  },
+  primaryActionText: {
+    fontSize: 14,
+    color: "#FFFFFF",
+    fontWeight: "800",
+  },
+  secondaryAction: {
+    borderRadius: 14,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: "#B6D0CC",
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+  },
+  secondaryActionText: {
+    fontSize: 14,
+    color: "#145A53",
     fontWeight: "800",
   },
   sectionHeaderRow: {
@@ -224,17 +258,17 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#1E3448",
+    color: "#102A43",
   },
   sectionMeta: {
     fontSize: 12,
-    color: "#6A7F92",
+    color: "#627D98",
     fontWeight: "700",
   },
   searchBox: {
     borderWidth: 1,
-    borderColor: "#D8E2ED",
-    borderRadius: 18,
+    borderColor: "#D9E2EC",
+    borderRadius: 16,
     backgroundColor: "#FFFFFF",
     padding: 14,
     gap: 10,
@@ -242,46 +276,34 @@ const styles = StyleSheet.create({
   sectionLabel: {
     fontSize: 14,
     fontWeight: "800",
-    color: "#1F3648",
+    color: "#102A43",
   },
   input: {
     borderWidth: 1,
-    borderColor: "#D5DFE9",
+    borderColor: "#D9E2EC",
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 11,
     fontSize: 14,
-    color: "#0F2537",
-    backgroundColor: "#FAFCFF",
+    color: "#102A43",
+    backgroundColor: "#F8FBFC",
   },
   searchResult: {
     borderWidth: 1,
-    borderColor: "#D2E6F7",
+    borderColor: "#CFE6E2",
     borderRadius: 10,
     paddingHorizontal: 10,
     paddingVertical: 8,
-    backgroundColor: "#F1F8FF",
+    backgroundColor: "#F3FFFC",
   },
   searchResultText: {
-    color: "#14558A",
+    color: "#145A53",
     fontSize: 13,
-    fontWeight: "700",
+    fontWeight: "800",
   },
   emptyHint: {
     fontSize: 12,
-    color: "#6E7E8D",
-  },
-  fullSearchButton: {
-    marginTop: 2,
-    paddingVertical: 14,
-    borderRadius: 12,
-    backgroundColor: "#0D68A8",
-    alignItems: "center",
-  },
-  fullSearchText: {
-    color: "#FFFFFF",
-    fontSize: 14,
-    fontWeight: "800",
+    color: "#627D98",
   },
   error: {
     fontSize: 12,

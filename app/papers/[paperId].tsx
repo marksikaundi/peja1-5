@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import * as Linking from "expo-linking";
 import * as WebBrowser from "expo-web-browser";
 import { useMemo, useState } from "react";
@@ -98,7 +98,10 @@ export default function PaperDetailScreen() {
           <BackNav style={styles.backButton} />
           <Text style={styles.badge}>Paper Detail</Text>
           <Text style={styles.title}>{paper.title}</Text>
-          <Text style={styles.subtitle}>Preview opens in app first. Offline save is optional.</Text>
+          <Text style={styles.subtitle}>Preview in app or use your preferred external app.</Text>
+          <Pressable style={styles.openAnyButton} onPress={() => router.push("/open")}>
+            <Text style={styles.openAnyButtonText}>Open Any Document</Text>
+          </Pressable>
         </View>
 
         <View style={styles.metaCard}>
@@ -147,7 +150,7 @@ export default function PaperDetailScreen() {
           </Pressable>
         )}
 
-        {busy || isDownloading ? <ActivityIndicator size="small" color="#0D68A8" /> : null}
+        {busy || isDownloading ? <ActivityIndicator size="small" color="#0F766E" /> : null}
 
         {downloadRecord ? (
           <View style={styles.savedCard}>
@@ -167,11 +170,11 @@ const styles = StyleSheet.create({
     paddingBottom: 24,
   },
   headerCard: {
-    borderRadius: 20,
+    borderRadius: 22,
     borderWidth: 1,
-    borderColor: "#D8E2ED",
+    borderColor: "#D5E4EA",
     backgroundColor: "#FFFFFF",
-    paddingHorizontal: 16,
+    paddingHorizontal: 18,
     paddingVertical: 16,
     gap: 6,
   },
@@ -180,25 +183,40 @@ const styles = StyleSheet.create({
   },
   badge: {
     fontSize: 11,
-    color: "#0C5D95",
+    color: "#0F766E",
     fontWeight: "800",
     letterSpacing: 0.4,
     textTransform: "uppercase",
   },
   title: {
-    fontSize: 24,
-    fontWeight: "800",
-    color: "#162D43",
+    fontSize: 28,
+    fontWeight: "900",
+    color: "#102A43",
   },
   subtitle: {
     fontSize: 14,
-    color: "#5A6F84",
+    color: "#486581",
     lineHeight: 20,
+  },
+  openAnyButton: {
+    marginTop: 6,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#B8D8D5",
+    backgroundColor: "#F3FFFC",
+    paddingHorizontal: 12,
+    paddingVertical: 7,
+  },
+  openAnyButtonText: {
+    fontSize: 12,
+    fontWeight: "800",
+    color: "#145A53",
   },
   metaCard: {
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: "#D8E2ED",
+    borderColor: "#D9E2EC",
     backgroundColor: "#FFFFFF",
     overflow: "hidden",
   },
@@ -209,16 +227,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 12,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#D9E4EE",
+    borderBottomColor: "#D9E2EC",
   },
   metaLabel: {
     fontSize: 13,
-    color: "#5A6F84",
+    color: "#486581",
     fontWeight: "700",
   },
   metaValue: {
     fontSize: 14,
-    color: "#1C3349",
+    color: "#102A43",
     fontWeight: "800",
     flexShrink: 1,
     textAlign: "right",
@@ -228,7 +246,7 @@ const styles = StyleSheet.create({
     paddingVertical: 13,
     paddingHorizontal: 14,
     alignItems: "center",
-    backgroundColor: "#0D68A8",
+    backgroundColor: "#0F766E",
   },
   primaryButtonText: {
     color: "#FFFFFF",
@@ -241,11 +259,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#0D68A8",
+    borderColor: "#0F766E",
     backgroundColor: "#FFFFFF",
   },
   secondaryButtonText: {
-    color: "#0D68A8",
+    color: "#0F766E",
     fontWeight: "800",
     fontSize: 14,
   },
@@ -255,11 +273,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#8AA3B7",
+    borderColor: "#B7C5D4",
     backgroundColor: "#FFFFFF",
   },
   secondaryMutedButtonText: {
-    color: "#36556D",
+    color: "#334E68",
     fontWeight: "800",
     fontSize: 14,
   },
@@ -280,14 +298,14 @@ const styles = StyleSheet.create({
   savedCard: {
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "#CFE5D8",
-    backgroundColor: "#F1FBF6",
+    borderColor: "#B8E0D5",
+    backgroundColor: "#ECFFF8",
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
   savedMeta: {
     fontSize: 12,
-    color: "#3B6A56",
+    color: "#1D6F57",
     fontWeight: "700",
   },
   errorCard: {
