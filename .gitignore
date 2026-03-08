@@ -33,6 +33,7 @@ yarn-error.*
 # local env files
 .env*.local
 .env
+/peja
 
 # typescript
 *.tsbuildinfo
@@ -42,3 +43,7 @@ app-example
 # generated native folders
 /ios
 /android
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
