@@ -32,22 +32,22 @@ const styles = StyleSheet.create({
     gap: 6,
     borderRadius: 999,
     borderWidth: 1,
-    borderColor: "#D2DFEC",
-    backgroundColor: "#F7FBFF",
-    paddingHorizontal: 10,
+    borderColor: "#C8D8E8",
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 11,
     paddingVertical: 6,
   },
   pressed: {
-    opacity: 0.85,
+    opacity: 0.8,
   },
   arrow: {
     fontSize: 14,
-    color: "#195887",
+    color: "#0F5B73",
     fontWeight: "800",
   },
   text: {
     fontSize: 12,
-    color: "#195887",
+    color: "#0F5B73",
     fontWeight: "800",
   },
 });
