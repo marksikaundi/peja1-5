@@ -8,23 +8,37 @@ export default function TabsLayout() {
       screenOptions={{
         headerShown: false,
         tabBarHideOnKeyboard: true,
-        tabBarActiveTintColor: "#0D68A8",
-        tabBarInactiveTintColor: "#7991A7",
+        tabBarActiveTintColor: "#0F766E",
+        tabBarInactiveTintColor: "#627D98",
         tabBarStyle: {
-          height: Platform.OS === "ios" ? 82 : 68,
-          paddingTop: Platform.OS === "ios" ? 10 : 8,
-          paddingBottom: Platform.OS === "ios" ? 20 : 10,
+          position: "absolute",
+          left: 12,
+          right: 12,
+          bottom: Platform.OS === "ios" ? 14 : 10,
+          height: Platform.OS === "ios" ? 74 : 64,
+          paddingTop: 8,
+          paddingBottom: Platform.OS === "ios" ? 14 : 8,
+          borderRadius: 20,
           borderTopWidth: 1,
-          borderTopColor: "#D7E1EB",
+          borderTopColor: "#CCE2DF",
+          borderColor: "#CCE2DF",
           backgroundColor: "#FFFFFF",
+          shadowColor: "#12343B",
+          shadowOpacity: 0.08,
+          shadowRadius: 14,
+          shadowOffset: {
+            width: 0,
+            height: 8,
+          },
+          elevation: 8,
         },
         tabBarItemStyle: {
-          paddingVertical: Platform.OS === "ios" ? 2 : 0,
+          paddingVertical: 0,
         },
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: "700",
-          marginTop: Platform.OS === "ios" ? 2 : 0,
+          fontWeight: "800",
+          marginTop: Platform.OS === "ios" ? 1 : 0,
         },
       }}
     >
@@ -34,6 +48,15 @@ export default function TabsLayout() {
           title: "Home",
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons name={focused ? "home" : "home-outline"} size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="open"
+        options={{
+          title: "Open",
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name={focused ? "folder-open" : "folder-open-outline"} size={size} color={color} />
           ),
         }}
       />
